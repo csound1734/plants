@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plant>
+    <namespace>
+    jim
+    </namespace>
+    <name> 
+    sload
+    </name>
+    <cabbagecode>
+    image bounds(0,0,500,150) colour(210,210,210) {
+        soundfiler bounds(0, 30, 299, 90) identchannel("slook")
+        filebutton bounds(0, 30,70,55) channel("filb") alpha(0.5)
+	button     bounds(301,30,68,90) channel("fldb") text("LOAD TO")
+	nslider    bounds(371,30,68,90) channel("dest") range(0,16384,0,1,1) text("f-table")
+
+    }
+    </cabbagecode>
+    <cabbagecodescript>
+    </cabbagecodescript>
+    <csoundcode>
+    </csoundcode>
+    <help>
+    </help>
+</plant> 
+

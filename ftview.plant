@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plant>
+    <namespace>
+    jim
+    </namespace>
+    <name> 
+    ftview
+    </name>
+    <cabbagecode>
+    image bounds(0,0,500,150) colour(210,210,210) {
+        gentable   bounds(71, 30, 298, 90) identchannel("view")
+	button     bounds(371,30,68,90) channel("fldb") text("SELECT")
+	nslider    bounds(1,30,68,90) channel("dest") range(0,16384,0,1,1) text("f-table")
+	encoder    bounds(441,0,60,120) channel("enc") trackercolour(210,210,255)
+    }
+    </cabbagecode>
+    <cabbagecodescript>
+    </cabbagecodescript>
+    <csoundcode>
+    </csoundcode>
+    <help>
+    </help>
+</plant> 
+
