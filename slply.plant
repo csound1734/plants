@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plant>
+    <namespace>
+    jim
+    </namespace>
+    <name> 
+    slplay
+    </name>
+    <cabbagecode>
+    image bounds(0,0,400,180) colour(210,210,210) {
+        soundfiler bounds(11, 41, 378, 98) identchannel("filedisp")
+        filebutton bounds(11,11,70,22) channel("filb") alpha(0.5)
+	button     bounds(11,142,70,22) channel("plbutton") text(">")
+    }
+    </cabbagecode>
+    <cabbagecodescript>
+    </cabbagecodescript>
+    <csoundcode>
+	     opcode slplay, Skk, S
+	    Schan xin
+	    Sres chnget sprintf("%sfilb",Schan)
+	        #ifdef DEBUG
+	    printf "\n%s\n\n\n\n", metro(11), Sres
+	        #end
+	    kplayb chnget sprintf("%splbutton",Schan)
+	    kflag changed2 Sres
+	    if kflag==1 then
+	    Sfile sprintfk "file(\"%s\")", Sres
+	        #ifdef DEBUG
+	    printf "%f", metro(1), 0.0
+	        #end
+	    chnset Sfile, sprintf("%sfiledisp", Schan)
+	    endif
+	    xout Sres, kflag, kplayb
+	     endop
+    </csoundcode>
+    <help>
+    </help>
+</plant> 
+
