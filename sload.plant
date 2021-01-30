@@ -7,17 +7,24 @@
     sload
     </name>
     <cabbagecode>
-    image bounds(0,0,500,150) colour(210,210,210) {
-        soundfiler bounds(0, 30, 299, 90) identchannel("slook")
-        filebutton bounds(0, 30,70,55) channel("filb") alpha(0.5)
-	button     bounds(301,30,68,90) channel("fldb") text("LOAD TO")
-	nslider    bounds(371,30,68,90) channel("dest") range(0,16384,0,1,1) text("f-table")
-
+    image bounds(0,0,400,150) colour(210,210,210) {
+        soundfiler bounds(11, 41, 378, 98) identchannel("filedisp")
+        filebutton bounds(11,11,70,28) channel("filb") alpha(0.5)
     }
     </cabbagecode>
     <cabbagecodescript>
     </cabbagecodescript>
     <csoundcode>
+	     opcode sload, Sk, S
+	    Schan xin
+	    Sres chnget sprintf("%sfilb",Schan)
+	    kflag changed2 Sres
+	    if kflag==1 then
+	    Sfile sprintfk "file(\"%s\")", Sres
+	    chnset Sfile, sprintf("%sfiledisp", Schan)
+	    endif
+	    xout Sres, kflag
+	     endop
     </csoundcode>
     <help>
     </help>

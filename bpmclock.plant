@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plant>
+<namespace>
+cab
+</namespace>
+<name>
+bpmclock
+</name>
+<cabbagecode>
+	image bounds(10, 10, 120, 60) colour(210,210,210) {
+                label bounds(0,0,120,15) text("TRIGGER")
+                rslider bounds(15,15,45,45) text("CPS") range(50,200,120,1,0.125) channel("bpm")
+}
+</cabbagecode>
+<cabbagecodescript>
+
+</cabbagecodescript>
+<csoundcode>
+opcode bpmclock,kk,S
+    SChan xin
+    iCnt init 0
+    kbpm  chnget sprintf("%sbpm", SChan)
+    ktrig metro kbpm/60
+    xout kbpm, ktrig
+endop
+
+</csoundcode>
+<info>
+
+</info>
+</plant>
+
