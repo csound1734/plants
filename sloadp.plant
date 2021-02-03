@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plant>
+    <namespace>
+    jim
+    </namespace>
+    <name> 
+    slplay
+    </name>
+    <cabbagecode>
+    image bounds(0,0,400,180) colour(210,210,210) {
+        soundfiler bounds(11, 41, 378, 98) identchannel("filedisp")
+        filebutton bounds(11,11,70,22) channel("filb") alpha(0.5)
+	button     bounds(71,142,38,22) channel("prevbutton") text(">")
+	checkbox   bounds(148,142,38,22) channel("prevcheck")
+	label      bounds(71, 170,117,8) text("PREVIEW")
+    }
+    </cabbagecode>
+    <cabbagecodescript>
+    </cabbagecodescript>
+    <csoundcode>
+	     opcode "slplay", Skk, S
+	    Schan xin
+	    Sres chnget sprintf("%sfilb",Schan)
+	    kplayb chnget sprintf("%splbutton",Schan)
+	    kflag changed2 Sres
+	    if kflag==1 then
+	    Sfile sprintfk "file(\"%s\")", Sres
+	    chnset Sfile, sprintf("%sfiledisp", Schan)
+	    endif
+	    xout Sres, kflag, kplayb
+	     endop
+
+	      opcode slplay_preview, aa, SSkk
+	     Schan, Sres, kflag, kbut xin
+	     aL init 0
+	     aR init 0
+	     iN = 0 ;INIT STATE
+	     iL = 0 ;INIT STATE
+	     restart1:
+	     if strlen:i(Sres)>=2 then
+	      iN filenchnls Sres
+	      iL filelen Sres
+	     endif
+	     iL limit iL, 0, 1000000000
+	      ; limiting iL protects timout
+	     timout iL, 1000000, dontplay
+	      ; dont branch until end of file
+	     if iN==1 then        ;MONO 
+	      aM diskin Sres
+	      aL = aM
+	      aR = aM
+	     elseif iN==2 then    ;STEREO
+              atest oscil .5, 440
+	      aL = atest
+	      aR = atest
+	      aL, aR diskin Sres
+	     else	    
+	      aL = 0
+	      aR = 0 
+	     endif
+		 goto skipclear ;when sound is playing
+             dontplay:
+              ; here is only branched-to when playback is done
+	     aL = 0
+	     aR = 0
+	     skipclear: ;branch to here when sound is playing
+	     if kflag==1 then ;flag reloads audio file
+	     reinit restart1
+	      endif
+	     xout aL, aR
+	     ;aL = 0
+	     ;aR = 0
+	     endop
+    </csoundcode>
+    <help>
+    </help>
+</plant> 
+
