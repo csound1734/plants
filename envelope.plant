@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plant>
+    <namespace>
+    jim
+    </namespace>
+    <name> 
+    envgen
+    </name>
+    <cabbagecode>
+    image bounds(0,0,600,300), colour(130,130,130) {
+     rslider bounds(0,30,60,60) range(0,1, 0.00, 1,0.03125) channel("-0")
+     rslider bounds(60,30,60,60) range(0,1, 0.25, 1,0.03125) channel("-1")
+     rslider bounds(120,30,60,60) range(0,1, 0.50, 1,0.03125) channel("-2")
+     rslider bounds(180,30,60,60) range(0,1, 0.75, 1,0.03125) channel("-3")
+     rslider bounds(240,30,60,60) range(0,1, 1.00, 1,0.03125) channel("-4")
+     gentable bounds(0,100,600,120), channel("-table"), identchannel("-tableid"), tablenumber(1), amprange(0,1,-1,0.001)
+     image bounds(0,100,3,120), identchannel("-scrubber") colour("red")
+     combobox bounds(320,30,100,20), channel("-choice"), items("lfo1", "lfo2"), value(1)
+     }
+    </cabbagecode>
+    <cabbagecodescript>
+    </cabbagecodescript>
+    <csoundcode>
+	     opcode Skippy, k, Skp
+	     Schan, kfreq, idisp xin
+	     ;idisp should point to empty 1024-size f-table
+ilfo1 ftgen 0,0,1024,-16,       0,22,0,1,234,-2,\
+                                     0,17,0,1,239,-2,\
+                                     0,25,0,1,231,2.5,\
+                                     0,20,0,1,236,-2,0 
+
+ilfo2 ftgen 0,0,1024,-16,       0,128,-12,1,128,12,\
+                                     0,128,-12,1,128,2,\
+                                     0,128,2,1,128,12,\
+                                     0,128,-12,1,128,-12, 0
+                                 
+k1 chnget sprintf("%s-0", Schan)
+k2 chnget sprintf("%s-1", Schan)
+k3 chnget sprintf("%s-2", Schan)
+k4 chnget sprintf("%s-3", Schan)
+k5 chnget sprintf("%s-4", Schan)
+kchoice chnget sprintf("%s-choice", Schan)
+choose1:
+tableicopy 1, ilfo1 
+chnset "tablenumber(1)", sprintf("%s-tableid", Schan)
+ rireturn
+choose2:
+tableicopy 1, ilfo2
+chnset "tablenumber(1)", sprintf("%s-tableid", Schan)
+ rireturn
+if changed(kchoice)==1&&kchoice==1 then
+ reinit choose1
+elseif changed(kchoice)==1&&kchoice==2 then
+ reinit choose2
+endif
+kEnvPhs loopseg kfreq, 0, 0, k1, 0.25, k2, 0.25, k3, 0.25, k4, 0.25, k5, 0.0
+kEnvPhs = kEnvPhs%1
+kscrub = kEnvPhs*600
+Sident sprintfk "bounds(%d,100,3,120)", kscrub
+chnset Sident, sprintf("%s-scrubber", Schan)
+kEnv table kEnvPhs, 1, 1, 0, 1
+xout kEnv
+ endop
+    </csoundcode>
+    <help>
+    </help>
+</plant> 
+

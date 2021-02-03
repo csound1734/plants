@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plant>
+    <namespace>
+    jim
+    </namespace>
+    <name> 
+    lfoGUI
+    </name>
+    <cabbagecode>
+    image bounds(0,0,500,180) colour(180,180,180) {
+gentable bounds(0, 22, 500, 118), channel("table"), identchannel("table-id") tablenumber(1) amprange(0,1,1,0.001)
+     combobox bounds(2,2,160,20) channel("-choice") items("lfo1", "lfo2") overlaycolour("blue")
+     image bounds(0,130,500,50) colour(210,210,210)
+     rslider bounds(0,130,60,60) range(0,1, 0.00, 1,0.03125) channel("-0")
+     rslider bounds(100,130,60,60) range(0,1, 0.25, 1,0.03125) channel("-1")
+     rslider bounds(200,130,60,60) range(0,1, 0.50, 1,0.03125) channel("-2")
+     rslider bounds(300,130,60,60) range(0,1, 0.75, 1,0.03125) channel("-3")
+     rslider bounds(400,130,60,60) range(0,1, 1.00, 1,0.03125) channel("-4")
+}
+    </cabbagecode>
+    <cabbagecodescript>
+    </cabbagecodescript>
+    <csoundcode>
+	     opcode myLfo, k, Skp
+Schan, kfreq, iftn xin
+ilfo1 ftgen 0,0,1024,-16,       0,22,0,1,234,-2,\
+                                     0,17,0,1,239,-2,\
+                                     0,25,0,1,231,2.5,\
+                                     0,20,0,1,236,-2,0 
+
+ilfo2 ftgen 0,0,1024,-16,       0,128,-12,1,128,12,\
+                                     0,128,-12,1,128,2,\
+                                     0,128,2,1,128,12,\
+                                     0,128,-12,1,128,-12, 0
+                                 
+tableicopy 1, ilfo1
+k1 chnget sprintf("%s-0", Schan)
+k2 chnget sprintf("%s-1", Schan)
+k3 chnget sprintf("%s-2", Schan)
+k4 chnget sprintf("%s-3", Schan)
+k5 chnget sprintf("%s-4", Schan)
+kchoice chnget sprintf("%s-choice", Schan)
+/*
+;choose1:
+;printf_i "\nHello1\n", 1
+;tableicopy 1, ilfo1
+;chnset "tablenumber(1)", sprintf("%s-tableid", Schan)
+; rireturn
+;choose2:
+;printf_i "\nHello2\n", 1
+;tableicopy 1, ilfo2
+;chnset "tablenumber(1)", sprintf("%s-tableid", Schan)
+; rireturn
+;kchg changed2 kchoice
+;printk2 kchg
+;printk2 kchoice
+;if kchg==1 then
+; if (kchoice==1) then
+; printf "\nHello0\n", 1
+;  reinit choose1
+; endif
+; if (kchoice==1) then
+;  reinit choose1
+; endif
+;endif
+*/
+;kchg changed2 kchoice
+;printk2 kchoice
+;choose1:
+;printf_i "\n\nHello1\n\n", 1
+;tableicopy 1, ilfo1 
+;chnset "tablenumber(1)", sprintf("%s-tableid", Schan)
+; rireturn
+;choose2:
+;printf_i "\n\nHello2\n\n", 1
+;tableicopy 1, ilfo2
+;chnset "tablenumber(1)", sprintf("%s-tableid", Schan)
+; rireturn
+;if (kchg==1) then
+;if kchoice==1 then
+; reinit choose1
+;elseif kchoice==2 then
+; reinit choose2
+;endif
+;endif
+kEnvPhs loopseg kfreq, 0, 0, k1, 0.25, k2, 0.25, k3, 0.25, k4, 0.25, k5, 0.0
+kEnv table kEnvPhs, 1, 1, 0, 1
+kEnvPhs = kEnvPhs%1
+kscrub = 0.001+kEnvPhs*.998
+ ;======
+ /*
+ ;k5 chnget sprintf("%s-4", Schan)
+;chnset "tablenumber()", sprintf("%stableid", Schan)
+;kpos phasor 1
+;kpos *= 381
+;Sident sprintfk "bounds(%d, 8, 5, 1000)", kpos+8
+;chnset Sident, sprintf("%simage", Schan)
+ */
+kchg changed2 kchoice
+ choose2:
+ tableicopy 1, ilfo2 
+ chnset "tablenumber(1)", sprintf("%stable-id", Schan)
+  rireturn
+ choose1:
+ tableicopy 1, ilfo1
+ chnset "tablenumber(1)", sprintf("%stable-id", Schan)
+  rireturn
+if (kchg==1) then
+if kchoice==1 then
+ reinit choose1
+elseif kchoice==2 then
+ reinit choose2
+endif
+endif
+continue:
+xout kEnv
+ endop
+
+    </csoundcode>
+    <help>
+    </help>
+</plant> 
+
