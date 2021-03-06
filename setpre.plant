@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plant>
+    <namespace>
+    jim
+    </namespace>
+    <name> 
+    lastPRESETnext
+    </name>
+    <cabbagecode>
+    
+    image bounds(0,0,400,180) colour(210,210,210) {
+        filebutton bounds(0,20,100,100),     channel("saveButton"), mode("snapshot")
+        combobox   bounds(100,20,200,100),   channel("PRESETch"), identchannel("PRESETid"), channeltype("string"), populate("*.snaps"), 
+        button     bounds(300, 0, 100, 90),  channel("lastPRESET"), text("<<")
+        button     bounds(300, 90, 100, 90), channel("nextPRESET"), text(">>")
+	  } 
+    
+    </cabbagecode>
+    <cabbagecodescript>
+    </cabbagecodescript>
+    <csoundcode>
+	
+       opcode "presetButtons", S, k
+	    Schan xin
+      kVpre init 0 ; the number of the preset
+      Sch_last sprintf "%slastPRESET", Schan
+      Sch_next sprintf "%snextPRESET", Schan
+      Sid_PRE  sprintf "%PRESETid", Schan
+        /* 
+          TODO! When one of two buttons is pushed, the value is either decreased or increased by one. Each time, send the value like:
+                  chnset kVpres, Sid_PRE
+              */
+	    xout kVpre
+	     endop
+    
+    </csoundcode>
+    <help>
+    </help>
+</plant> 
+
