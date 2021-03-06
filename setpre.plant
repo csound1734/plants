@@ -35,6 +35,10 @@
     
     </csoundcode>
     <help>
+	    SETPRE
+	    A cabbage preset manager. Press the next and last buttons to scroll through the presets. Choose a preset with the combobox.
+	      Save a preset with the "Save" button.
+	    https://forum.cabbageaudio.com/t/combobox-next-and-last-button/2339/3 this discussion was the basis for the next/last buttons.
     </help>
 </plant> 
 
