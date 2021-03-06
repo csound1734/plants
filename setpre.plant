@@ -10,7 +10,7 @@
     
     image bounds(0,0,400,180) colour(210,210,210) {
         filebutton bounds(0,20,100,100),     channel("saveButton"), mode("snapshot")
-        combobox   bounds(100,20,200,100),   channel("PRESETch"), identchannel("PRESETid"), channeltype("string"), populate("*.snaps"), 
+        combobox   bounds(100,20,200,100),   channel("PRESETch"), identchannel("PRESETid"), channeltype("string"), populate("*.snaps")
         button     bounds(300, 0, 100, 90),  channel("lastPRESET"), text("<<")
         button     bounds(300, 90, 100, 90), channel("nextPRESET"), text(">>")
 	  } 
